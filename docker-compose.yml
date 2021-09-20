@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  iatec.ems.api:
+    image: ${DOCKER_REGISTRY-}iatecemsapi
+    build:
+      context: .
+      dockerfile: src/Iatec.EMS.APi/Dockerfile
