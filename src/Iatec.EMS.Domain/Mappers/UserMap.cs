@@ -39,8 +39,8 @@ namespace Iatec.EMS.Domain.Mappers
                    .IsRequired();
 
             builder.Property(x => x.Gender)
+                   .HasConversion<int>()
                    .HasColumnName("usr_gender")
-                   .HasColumnType("BOOL")
                    .IsRequired();
         }
     }

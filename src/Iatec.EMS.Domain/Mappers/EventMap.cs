@@ -39,8 +39,8 @@ namespace Iatec.EMS.Domain.Mappers
                    .IsRequired();
 
             builder.Property(x => x.Type)
+                   .HasConversion<int>()
                    .HasColumnName("evt_type")
-                   .HasColumnType("SMALLINT")
                    .IsRequired();
         }
     }
