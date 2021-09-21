@@ -1,6 +1,9 @@
-﻿using Iatec.EMS.Infra.Intefaces;
+﻿using AutoMapper;
+using Iatec.EMS.Domain.Entities;
+using Iatec.EMS.Infra.Intefaces;
 using Iatec.EMS.Infra.Repositories;
 using Iatec.EMS.Services;
+using Iatec.EMS.Services.DTOs;
 using Iatec.EMS.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +23,17 @@ namespace Iatec.EMS.IoC
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IEventParticipantService, EventParticipantService>();
+            #endregion
+
+            #region AutoMaper
+            var autoMapperConfig = new MapperConfiguration(config =>
+            {
+                config.CreateMap<User, UserDTO>().ReverseMap();
+                config.CreateMap<Event, EventDTO>().ReverseMap();
+                config.CreateMap<EventParticipant, EventParticipantDTO>().ReverseMap();
+            });
+
+            services.AddSingleton(autoMapperConfig.CreateMapper());
             #endregion
 
             return services;
