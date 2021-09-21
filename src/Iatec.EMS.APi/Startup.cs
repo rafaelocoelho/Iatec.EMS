@@ -1,16 +1,13 @@
+using Iatec.EMS.Infra;
+using Iatec.EMS.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Iatec.EMS.APi
 {
@@ -28,8 +25,12 @@ namespace Iatec.EMS.APi
         {
 
             services.AddControllers();
+            services.AddInfra(Configuration);
+            services.AddServices();
+
             services.AddSwaggerGen(c =>
             {
+                c.IncludeXmlComments(string.Format(@"{0}{1}Iatec.EMS.Api.xml", Directory.GetDirectoryRoot(AppDomain.CurrentDomain.BaseDirectory), "app/"));
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Iatec.EMS.APi", Version = "v1" });
             });
         }
