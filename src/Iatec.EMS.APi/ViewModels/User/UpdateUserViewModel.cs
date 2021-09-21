@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Iatec.EMS.APi.ViewModels
+namespace Iatec.EMS.Api.ViewModels
 {
     public class UpdateUserViewModel
     {

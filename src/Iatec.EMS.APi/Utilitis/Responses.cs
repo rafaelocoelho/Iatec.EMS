@@ -1,7 +1,7 @@
-﻿using Iatec.EMS.APi.ViewModels;
+﻿using Iatec.EMS.Api.ViewModels;
 using System.Collections.Generic;
 
-namespace Iatec.EMS.APi.Utilitis
+namespace Iatec.EMS.Api.Utilitis
 {
     public static class Responses
     {

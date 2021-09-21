@@ -1,4 +1,4 @@
-﻿namespace Iatec.EMS.APi.ViewModels
+﻿namespace Iatec.EMS.Api.ViewModels
 {
     public class ResultViewModel
     {

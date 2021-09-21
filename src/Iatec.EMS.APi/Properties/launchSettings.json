@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Iatec.EMS.APi": {
+    "Iatec.EMS.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

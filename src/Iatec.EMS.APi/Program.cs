@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Iatec.EMS.APi
+namespace Iatec.EMS.Api
 {
     public class Program
     {

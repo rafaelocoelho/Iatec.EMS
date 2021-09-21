@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
 
-namespace Iatec.EMS.APi
+namespace Iatec.EMS.Api
 {
     public class Startup
     {
@@ -31,7 +31,7 @@ namespace Iatec.EMS.APi
             services.AddSwaggerGen(c =>
             {
                 c.IncludeXmlComments(string.Format(@"{0}{1}Iatec.EMS.Api.xml", Directory.GetDirectoryRoot(AppDomain.CurrentDomain.BaseDirectory), "app/"));
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Iatec.EMS.APi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Iatec.EMS.Api", Version = "v1" });
             });
         }
 
@@ -42,7 +42,7 @@ namespace Iatec.EMS.APi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Iatec.EMS.APi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EMS APP"));
             }
 
             app.UseHttpsRedirection();

@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Module", "Module", "{025B17
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iatec.EMS.IoC", "src\Iatec.EMS.IoC\Iatec.EMS.IoC.csproj", "{B51980C0-00BB-4426-9B9F-87F3AE2F2C6C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iatec.EMS.APi", "src\Iatec.EMS.APi\Iatec.EMS.APi.csproj", "{B77F4CD3-14CA-4464-BE7A-692E4A1D9622}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iatec.EMS.Api", "src\Iatec.EMS.APi\Iatec.EMS.Api.csproj", "{B77F4CD3-14CA-4464-BE7A-692E4A1D9622}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9E0CE601-C530-4BA8-A3A6-5CC35A6C1420}"
 EndProject
