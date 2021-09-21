@@ -5,6 +5,7 @@ using Iatec.EMS.Infra.Contexts;
 using Iatec.EMS.Infra.Intefaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,14 +20,22 @@ namespace Iatec.EMS.Infra.Repositories
             _context = context;
         }
 
-        public async Task<EventParticipant> GetByUserId(long userId)
+        public async Task<List<EventParticipant>> GetByUserId(long userId)
         {
             return await _context.Set<EventParticipant>()
                                  .AsNoTracking()
                                  .Include(x => x.Event)
                                  .Include(x => x.User)
                                  .Where(x => x.UserId == userId)
-                                 .SingleOrDefaultAsync();
+                                 .ToListAsync();
+        }
+
+        public async Task<EventParticipant> GetByUserIdAndEventId(long userId, long eventId)
+        {
+            return await _context.Set<EventParticipant>()
+                                 .AsNoTracking()
+                                 .Where(x => x.UserId == userId && 
+                                             x.EventId == eventId).FirstOrDefaultAsync();
         }
     }
 }

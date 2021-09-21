@@ -49,7 +49,7 @@ namespace Iatec.EMS.Infra.Repositories
             return await _context.Set<T>()
                                  .AsNoTracking()
                                  .Where(x => x.Id == id)
-                                 .SingleOrDefaultAsync();
+                                 .FirstOrDefaultAsync();
         }
 
         public virtual async Task<List<T>> Get()

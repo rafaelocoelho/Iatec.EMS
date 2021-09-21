@@ -7,7 +7,7 @@ namespace Iatec.EMS.Infra.Intefaces
 {
     public interface IUserRepository : IBaseRepository<User>
     {
-        Task<User> GetByName(string name);
-        Task<User> GetByNameAndPassword(string name, string password);
+        Task<User> GetByEmail(string email);
+        Task<User> GetByEmailAndPassword(string email, string password);
     }
 }

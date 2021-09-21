@@ -4,6 +4,7 @@ using Iatec.EMS.Infra.Contexts;
 using Iatec.EMS.Infra.Intefaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,15 +24,15 @@ namespace Iatec.EMS.Infra.Repositories
             return await _context.Set<Event>()
                                  .AsNoTracking()
                                  .Where(x => x.Name == name)
-                                 .SingleOrDefaultAsync();
+                                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Event> GetByType(EventTypeEnum type)
+        public async Task<List<Event>> GetByRangeDate(DateTime initialDate, DateTime finalDate)
         {
             return await _context.Set<Event>()
                                  .AsNoTracking()
-                                 .Where(x => x.Type == type)
-                                 .SingleOrDefaultAsync();
+                                 .Where(x => x.Date >= initialDate && 
+                                             x.Date <= finalDate).ToListAsync();
         }
 
         public async Task<Event> GetByDateAndType(DateTime date, EventTypeEnum type)
@@ -39,7 +40,7 @@ namespace Iatec.EMS.Infra.Repositories
             return await _context.Set<Event>()
                     .AsNoTracking()
                     .Where(x => x.Date == date && x.Type == type)
-                    .SingleOrDefaultAsync();
+                    .FirstOrDefaultAsync();
         }
     }
 }

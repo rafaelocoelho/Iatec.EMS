@@ -16,20 +16,20 @@ namespace Iatec.EMS.Infra.Repositories
             _context = context;
         }
 
-        public async Task<User> GetByName(string name)
+        public async Task<User> GetByEmail(string email)
         {
             return await _context.Set<User>()
                                  .AsNoTracking()
-                                 .Where(x => x.Name == name)
-                                 .SingleOrDefaultAsync();
+                                 .Where(x => x.Email == email)
+                                 .FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetByNameAndPassword(string name, string password)
+        public async Task<User> GetByEmailAndPassword(string email, string password)
         {
             return await _context.Set<User>()
                                  .AsNoTracking()
-                                 .Where(x => x.Name == name && x.Password == password)
-                                 .SingleOrDefaultAsync();
+                                 .Where(x => x.Email == email && 
+                                             x.Password == password).FirstOrDefaultAsync();
         }
     }
 }
