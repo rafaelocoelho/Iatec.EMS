@@ -1,5 +1,7 @@
+using Iatec.EMS.Api.Infra.Extensions;
 using Iatec.EMS.Infra;
 using Iatec.EMS.IoC;
+using Iatec.EMS.Token;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,14 +27,50 @@ namespace Iatec.EMS.Api
         {
 
             services.AddControllers();
-            services.AddInfra(Configuration);
-            services.AddServices();
 
+            #region Jwt
+            services.AddJwtServices(Configuration);
+            #endregion
+
+            #region Api 
+            services.AddAPIServices();
+            #endregion
+
+            #region Infra
+            services.AddInfra(Configuration);
+            #endregion
+
+            #region IoC
+            services.AddServices();
+            #endregion
+
+            #region Swagger
             services.AddSwaggerGen(c =>
             {
                 c.IncludeXmlComments(string.Format(@"{0}{1}Iatec.EMS.Api.xml", Directory.GetDirectoryRoot(AppDomain.CurrentDomain.BaseDirectory), "app/"));
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Iatec.EMS.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Iatec EMS Api", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Por favor, utilize Bearer <TOKEN>",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +86,8 @@ namespace Iatec.EMS.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
