@@ -4,6 +4,8 @@ using Iatec.EMS.Api.ViewModels;
 using Iatec.EMS.Core.Exceptions;
 using Iatec.EMS.Services.DTOs;
 using Iatec.EMS.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,31 +13,30 @@ using System.Threading.Tasks;
 
 namespace Iatec.EMS.Api.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    [Route(_version + "users")]
+    public class UserController : BaseApiController
     {
-        protected readonly IMapper _mapper;
-        private readonly IUserService _service;
+        private readonly IUserService _userService;
 
         public UserController(
             IMapper mapper,
-            IUserService service)
+            IUserService userService) : base (mapper)
         {
-            _mapper = mapper;
-            _service = service;
+            _userService = userService;
         }
 
-        [HttpPost("/api/users/create")]
-        public async Task<IActionResult> Create([FromBody] CreateEventViewModel viewModel)
+        [AllowAnonymous]
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Create([FromBody] CreateUserViewModel viewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(Responses.ApplicationErrorMessage("Parâmetros inválidos!"));
 
             try
             {
-                UserDTO userDTO = _mapper.Map<UserDTO>(viewModel);
-                UserDTO userCreated = await _service.Create(userDTO);
+                var userDTO = _mapper.Map<UserDTO>(viewModel);
+                var userCreated = await _userService.Create(userDTO);
 
                 return Ok(new ResultViewModel
                 {
@@ -48,13 +49,14 @@ namespace Iatec.EMS.Api.Controllers
             {
                 return BadRequest(Responses.DomainErroMessage(exception.Message, exception.Errors));
             }
-            catch (Exception)
+            catch (Exception error)
             {
-                return StatusCode(500, Responses.ApplicationErrorMessage());
+                return StatusCode(500, Responses.ApplicationErrorMessage(error.Message));
             }
         }
 
-        [HttpPut("/api/users/update")]
+        [HttpPut("update")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update([FromBody] UpdateUserViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -63,7 +65,7 @@ namespace Iatec.EMS.Api.Controllers
             try
             {
                 UserDTO userDTO = _mapper.Map<UserDTO>(viewModel);
-                UserDTO userUpdated = await _service.Update(userDTO);
+                UserDTO userUpdated = await _userService.Update(userDTO);
 
                 return Ok(new ResultViewModel
                 {
@@ -82,12 +84,13 @@ namespace Iatec.EMS.Api.Controllers
             }
         }
 
-        [HttpDelete("/api/users/remove/{id}")]
+        [HttpDelete("remove/{id}")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Remove(long id)
         {
             try
             {
-                await _service.Remove(id);
+                await _userService.Remove(id);
 
                 return Ok(new ResultViewModel
                 {
@@ -106,12 +109,13 @@ namespace Iatec.EMS.Api.Controllers
             }
         }
 
-        [HttpGet("/api/users/{id}")]
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(long id)
         {
             try
             {
-                UserDTO userDTO = await _service.Get(id);
+                UserDTO userDTO = await _userService.Get(id);
 
                 if (userDTO is null)
                     return Ok(new ResultViewModel
@@ -138,12 +142,13 @@ namespace Iatec.EMS.Api.Controllers
             }
         }
 
-        [HttpGet("/api/users")]
+        [HttpGet]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             try
             {
-                List<UserDTO> usersDTO = await _service.Get();
+                List<UserDTO> usersDTO = await _userService.Get();
 
                 if (usersDTO is null)
                     return Ok(new ResultViewModel

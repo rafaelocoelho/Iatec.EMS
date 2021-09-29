@@ -4,6 +4,7 @@ using Iatec.EMS.Api.ViewModels;
 using Iatec.EMS.Core.Exceptions;
 using Iatec.EMS.Services.DTOs;
 using Iatec.EMS.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,20 @@ using System.Threading.Tasks;
 
 namespace Iatec.EMS.Api.Controllers
 {
-    [ApiController]
-    public class EventController : ControllerBase
+    [Route(_version + "events")]
+    public class EventController : BaseApiController
     {
-        protected readonly IMapper _mapper;
-        private readonly IEventService _service;
+        private readonly IEventService _eventService;
 
         public EventController(
-            IMapper mapper, 
-            IEventService service)
+            IMapper mapper,
+            IEventService eventService) : base (mapper)
         {
-            _mapper = mapper;
-            _service = service;
+            _eventService = eventService;
         }
 
-        [HttpPost("/api/events/create")]
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create([FromBody] CreateEventViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -34,7 +34,7 @@ namespace Iatec.EMS.Api.Controllers
             try
             {
                 EventDTO eventDTO = _mapper.Map<EventDTO>(viewModel);
-                EventDTO eventCreated = await _service.Create(eventDTO);
+                EventDTO eventCreated = await _eventService.Create(eventDTO);
 
                 return Ok(new ResultViewModel
                 {
@@ -53,7 +53,8 @@ namespace Iatec.EMS.Api.Controllers
             }
         }
 
-        [HttpPut("/api/events/update")]
+        [HttpPut("update")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update([FromBody] UpdateEventViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -62,7 +63,7 @@ namespace Iatec.EMS.Api.Controllers
             try
             {
                 EventDTO eventDTO = _mapper.Map<EventDTO>(viewModel);
-                EventDTO eventUpdated = await _service.Update(eventDTO);
+                EventDTO eventUpdated = await _eventService.Update(eventDTO);
 
                 return Ok(new ResultViewModel
                 {
@@ -81,12 +82,13 @@ namespace Iatec.EMS.Api.Controllers
             }
         }
 
-        [HttpDelete("/api/events/remove/{id}")]
+        [HttpDelete("remove/{id}")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Remove(long id)
         {
             try
             {
-                await _service.Remove(id);
+                await _eventService.Remove(id);
 
                 return Ok(new ResultViewModel
                 {
@@ -105,12 +107,13 @@ namespace Iatec.EMS.Api.Controllers
             }
         }
 
-        [HttpGet("/api/events/{id}")]
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(long id)
         {
             try
             {
-                EventDTO eventDTO = await _service.Get(id);
+                EventDTO eventDTO = await _eventService.Get(id);
 
                 if (eventDTO is null)
                     return Ok(new ResultViewModel
@@ -137,12 +140,13 @@ namespace Iatec.EMS.Api.Controllers
             }
         }
 
-        [HttpGet("/api/events")]
+        [HttpGet]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             try
             {
-                List<EventDTO> eventsDTO = await _service.Get();
+                List<EventDTO> eventsDTO = await _eventService.Get();
 
                 if (eventsDTO is null)
                     return Ok(new ResultViewModel
