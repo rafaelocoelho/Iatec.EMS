@@ -31,7 +31,7 @@ namespace Iatec.EMS.Infra.Repositories
         {
             return await _context.Set<Event>()
                                  .AsNoTracking()
-                                 .Where(x => x.Date >= initialDate && 
+                                 .Where(x => x.Date >= initialDate &&
                                              x.Date <= finalDate).ToListAsync();
         }
 

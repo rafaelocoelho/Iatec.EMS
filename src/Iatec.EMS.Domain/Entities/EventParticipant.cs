@@ -1,7 +1,5 @@
 ﻿using Iatec.EMS.Core.Exceptions;
-using Iatec.EMS.Domain.Enums;
 using Iatec.EMS.Domain.Validators;
-using System;
 using System.Collections.Generic;
 
 namespace Iatec.EMS.Domain.Entities

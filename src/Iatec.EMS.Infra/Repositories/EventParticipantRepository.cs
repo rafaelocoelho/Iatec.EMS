@@ -1,10 +1,8 @@
 ﻿
 using Iatec.EMS.Domain.Entities;
-using Iatec.EMS.Domain.Enums;
 using Iatec.EMS.Infra.Contexts;
 using Iatec.EMS.Infra.Intefaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +32,7 @@ namespace Iatec.EMS.Infra.Repositories
         {
             return await _context.Set<EventParticipant>()
                                  .AsNoTracking()
-                                 .Where(x => x.UserId == userId && 
+                                 .Where(x => x.UserId == userId &&
                                              x.EventId == eventId).FirstOrDefaultAsync();
         }
     }

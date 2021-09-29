@@ -20,10 +20,10 @@ namespace Iatec.EMS.Domain.Validators
 
                 .NotNull()
                 .WithMessage("O nome não pode ser nulo.")
-                
+
                 .MinimumLength(3)
                 .WithMessage("O nome precisa ter no mínimo 3 caracteres.")
-                
+
                 .MaximumLength(150)
                 .WithMessage("O nome não pode ultrapassar 150 caracteres.");
 
@@ -49,7 +49,7 @@ namespace Iatec.EMS.Domain.Validators
 
                 .Length(3, 10)
                 .WithMessage("A senha precisa ter entre 3 e 10 caracteres.")
-                
+
                 .NotEqual(x => x.Name)
                 .WithMessage("A senha não pode ser igual ao nome.");
 

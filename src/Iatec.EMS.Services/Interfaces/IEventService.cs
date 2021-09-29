@@ -1,5 +1,4 @@
-﻿using Iatec.EMS.Domain.Enums;
-using Iatec.EMS.Services.DTOs;
+﻿using Iatec.EMS.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

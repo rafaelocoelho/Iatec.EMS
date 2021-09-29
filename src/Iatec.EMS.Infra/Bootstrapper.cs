@@ -10,7 +10,7 @@ namespace Iatec.EMS.Infra
         public static void AddInfra(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnetion"),
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
                     assembly => assembly.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
     }

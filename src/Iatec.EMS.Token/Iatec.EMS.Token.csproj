@@ -5,13 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.10" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Iatec.EMS.Infra\Iatec.EMS.Infra.csproj" />
+    <ProjectReference Include="..\Iatec.EMS.Domain\Iatec.EMS.Domain.csproj" />
     <ProjectReference Include="..\Iatec.EMS.Services\Iatec.EMS.Services.csproj" />
-    <ProjectReference Include="..\Iatec.EMS.Token\Iatec.EMS.Token.csproj" />
   </ItemGroup>
 
 </Project>

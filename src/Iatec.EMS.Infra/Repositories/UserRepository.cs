@@ -28,7 +28,7 @@ namespace Iatec.EMS.Infra.Repositories
         {
             return await _context.Set<User>()
                                  .AsNoTracking()
-                                 .Where(x => x.Email == email && 
+                                 .Where(x => x.Email == email &&
                                              x.Password == password).FirstOrDefaultAsync();
         }
     }

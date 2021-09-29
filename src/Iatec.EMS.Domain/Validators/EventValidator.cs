@@ -20,10 +20,10 @@ namespace Iatec.EMS.Domain.Validators
 
                 .NotNull()
                 .WithMessage("O nome não pode ser nulo.")
-                
+
                 .MinimumLength(5)
                 .WithMessage("O nome precisa ter no mínimo 5 caracteres.")
-                
+
                 .MaximumLength(150)
                 .WithMessage("O nome não pode ultrapassar 150 caracteres.");
 
