@@ -12,5 +12,6 @@ namespace Iatec.EMS.Services.Interfaces
         Task<UserDTO> Get(long id);
         Task<List<UserDTO>> Get();
         Task<UserDTO> GetByEmailAndPassword(string email, string password);
+        string HashValue(string value);
     }
 }

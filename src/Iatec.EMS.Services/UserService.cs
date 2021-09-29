@@ -5,6 +5,9 @@ using Iatec.EMS.Infra.Intefaces;
 using Iatec.EMS.Services.DTOs;
 using Iatec.EMS.Services.Interfaces;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Iatec.EMS.Services
@@ -31,6 +34,7 @@ namespace Iatec.EMS.Services
 
             User user = _mapper.Map<User>(userDTO);
             user.Validate();
+            user.ChangePassword(HashValue(user.Password));
 
             User userCreated = await _repository.Create(user);
 
@@ -78,9 +82,25 @@ namespace Iatec.EMS.Services
 
         public async Task<UserDTO> GetByEmailAndPassword(string email, string password)
         {
-            User user = await _repository.GetByEmailAndPassword(email, password);
+            User user = await _repository.GetByEmailAndPassword(email, HashValue(password));
 
             return _mapper.Map<UserDTO>(user);
+        }
+
+        public string HashValue(string value)
+        {
+            UnicodeEncoding encoding = new UnicodeEncoding();
+            byte[] hashBytes;
+            using (HashAlgorithm hash = SHA1.Create())
+                hashBytes = hash.ComputeHash(encoding.GetBytes(value));
+
+            StringBuilder hashValue = new StringBuilder(hashBytes.Length * 2);
+            foreach (byte b in hashBytes)
+            {
+                hashValue.AppendFormat(CultureInfo.InvariantCulture, "{0:X2}", b);
+            }
+
+            return hashValue.ToString();
         }
     }
 }

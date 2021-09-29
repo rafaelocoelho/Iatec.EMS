@@ -1,6 +1,4 @@
 ﻿using Iatec.EMS.Domain.Entities;
-using Iatec.EMS.Infra.Repositories;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Iatec.EMS.Infra.Intefaces
