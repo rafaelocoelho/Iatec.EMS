@@ -30,7 +30,7 @@ namespace Iatec.EMS.Domain.Mappers
 
             builder.Property(x => x.Password)
                    .HasColumnName("usr_passwd")
-                   .HasColumnType("VARCHAR(10)")
+                   .HasColumnType("VARCHAR(150)")
                    .IsRequired();
 
             builder.Property(x => x.Birthday)
