@@ -7,6 +7,7 @@ using Iatec.EMS.Services.DTOs;
 using Iatec.EMS.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Iatec.EMS.Services
@@ -15,16 +16,19 @@ namespace Iatec.EMS.Services
     {
         private readonly IMapper _mapper;
         private readonly IEventRepository _repository;
+        IEventParticipantRepository _eventParticipantRepository;
 
         public EventService(
             IMapper mapper,
-            IEventRepository repository)
+            IEventRepository repository,
+            IEventParticipantRepository eventParticipantRepository)
         {
             _mapper = mapper;
             _repository = repository;
+            _eventParticipantRepository = eventParticipantRepository;
         }
 
-        public async Task<EventDTO> Create(EventDTO eventDTO)
+        public async Task<EventDTO> Create(EventDTO eventDTO, long userId)
         {
             Event eventExists = null;
 
@@ -37,9 +41,23 @@ namespace Iatec.EMS.Services
             Event @event = _mapper.Map<Event>(eventDTO);
             @event.Validate();
 
-            Event eventCreated = await _repository.Create(@event);
+            var dbTransaction = _repository.DbTransaction();
 
-            return _mapper.Map<EventDTO>(eventCreated);
+            try
+            {
+                await _repository.Create(@event);
+
+                EventParticipant eventParticipant = new EventParticipant(@event.Id, userId);
+                EventParticipant createdeventParticipant = await _eventParticipantRepository.Create(eventParticipant);
+
+                dbTransaction.Commit();
+            }
+            catch (Exception)
+            {
+                dbTransaction.Rollback();
+            }            
+
+            return _mapper.Map<EventDTO>(@event);
         }
 
         public async Task<EventDTO> Update(EventDTO eventDTO)
@@ -88,9 +106,9 @@ namespace Iatec.EMS.Services
             return _mapper.Map<EventDTO>(@event);
         }
 
-        public async Task<List<EventDTO>> GetByRangeDate(DateTime initialDate, DateTime finalDate)
+        public async Task<List<EventDTO>> Search(DateTime initialDate, DateTime finalDate)
         {
-            List<Event> events = await _repository.GetByRangeDate(initialDate, finalDate);
+            List<Event> events = await _repository.Search(initialDate, finalDate);
 
             return _mapper.Map<List<EventDTO>>(events);
         }
