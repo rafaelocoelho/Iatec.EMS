@@ -47,9 +47,6 @@ namespace Iatec.EMS.Domain.Validators
                 .NotNull()
                 .WithMessage("A senha não pode ser nula.")
 
-                .Length(3, 10)
-                .WithMessage("A senha precisa ter entre 3 e 10 caracteres.")
-
                 .NotEqual(x => x.Name)
                 .WithMessage("A senha não pode ser igual ao nome.");
 
