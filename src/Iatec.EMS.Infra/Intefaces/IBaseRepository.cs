@@ -1,4 +1,5 @@
 ﻿using Iatec.EMS.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,5 +12,6 @@ namespace Iatec.EMS.Infra.Intefaces
         Task Remove(long id);
         Task<T> Get(long id);
         Task<List<T>> Get();
+        IDbContextTransaction DbTransaction();
     }
 }

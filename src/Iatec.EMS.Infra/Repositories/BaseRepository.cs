@@ -2,6 +2,7 @@
 using Iatec.EMS.Infra.Contexts;
 using Iatec.EMS.Infra.Intefaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,6 +58,11 @@ namespace Iatec.EMS.Infra.Repositories
             return await _context.Set<T>()
                                  .AsNoTracking()
                                  .ToListAsync();
+        }
+
+        public IDbContextTransaction DbTransaction()
+        {
+            return _context.Database.BeginTransaction();
         }
     }
 }
