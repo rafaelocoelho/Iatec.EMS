@@ -9,7 +9,7 @@ namespace Iatec.EMS.Infra.Intefaces
     public interface IEventRepository : IBaseRepository<Event>
     {
         Task<Event> GetByName(string name);
-        Task<List<Event>> GetByRangeDate(DateTime initialDate, DateTime finalDate);
+        Task<List<Event>> Search(DateTime initialDate, DateTime finalDate);
         Task<Event> GetByDateAndType(DateTime date, EventTypeEnum type);
     }
 }
