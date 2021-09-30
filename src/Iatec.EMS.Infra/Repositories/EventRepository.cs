@@ -3,6 +3,7 @@ using Iatec.EMS.Domain.Enums;
 using Iatec.EMS.Infra.Contexts;
 using Iatec.EMS.Infra.Intefaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,15 +25,20 @@ namespace Iatec.EMS.Infra.Repositories
             return await _context.Set<Event>()
                                  .AsNoTracking()
                                  .Where(x => x.Name == name)
+                                 .Include(x => x.EventParticipants)
                                  .FirstOrDefaultAsync();
         }
 
-        public async Task<List<Event>> GetByRangeDate(DateTime initialDate, DateTime finalDate)
+        public async Task<List<Event>> Search(DateTime initialDate, DateTime finalDate)
         {
             return await _context.Set<Event>()
                                  .AsNoTracking()
-                                 .Where(x => x.Date >= initialDate &&
-                                             x.Date <= finalDate).ToListAsync();
+                                 .Include(x => x.EventParticipants)
+                                 .Where(x => 
+                                             x.Date >= initialDate &&
+                                             x.Date <= finalDate)
+                                 .OrderByDescending(x => x.Date)
+                                 .ToListAsync();
         }
 
         public async Task<Event> GetByDateAndType(DateTime date, EventTypeEnum type)
