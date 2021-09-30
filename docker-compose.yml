@@ -6,3 +6,12 @@ services:
     build:
       context: .
       dockerfile: src/Iatec.EMS.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "5060:80"
+      - "5061:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
