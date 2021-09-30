@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Iatec.EMS.Api.Controllers
@@ -18,17 +19,15 @@ namespace Iatec.EMS.Api.Controllers
     {
         #region Properties
         private readonly IUserService _userService;
-        private readonly ITokenProvider _tokenProvider;
         #endregion
 
         #region Constructor
         public AuthenticateController(
             IMapper mapper,
             ITokenProvider tokenProvider,
-            IUserService userService) : base(mapper)
+            IUserService userService) : base(mapper, tokenProvider)
         {
             _userService = userService;
-            _tokenProvider = tokenProvider;
         }
         #endregion
 

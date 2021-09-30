@@ -16,14 +16,18 @@ namespace Iatec.EMS.Api.Controllers
     [Route(_version + "users")]
     public class UserController : BaseApiController
     {
+        #region Properties
         private readonly IUserService _userService;
+        #endregion
 
+        #region Constructor
         public UserController(
             IMapper mapper,
             IUserService userService) : base (mapper)
         {
             _userService = userService;
         }
+        #endregion
 
         [AllowAnonymous]
         [HttpPost("create")]
@@ -35,8 +39,8 @@ namespace Iatec.EMS.Api.Controllers
 
             try
             {
-                var userDTO = _mapper.Map<UserDTO>(viewModel);
-                var userCreated = await _userService.Create(userDTO);
+                UserDTO userDTO = _mapper.Map<UserDTO>(viewModel);
+                UserDTO userCreated = await _userService.Create(userDTO);
 
                 return Ok(new ResultViewModel
                 {
@@ -51,11 +55,11 @@ namespace Iatec.EMS.Api.Controllers
             }
             catch (Exception error)
             {
-                return StatusCode(500, Responses.ApplicationErrorMessage(error.Message));
+                return StatusCode(500, Responses.ApplicationErrorMessage());
             }
         }
 
-        [HttpPut("update")]
+        [HttpPatch("update")]
         [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update([FromBody] UpdateUserViewModel viewModel)
         {
