@@ -21,6 +21,10 @@ namespace Iatec.EMS.Api.Infra.AutoMapper
             CreateMap<CreateEventViewModel, EventDTO>().ReverseMap();
             CreateMap<UpdateEventViewModel, EventDTO>().ReverseMap();
             #endregion
+
+            #region EventPartipant
+            CreateMap<EventParticipant, EventParticipantDTO>().ReverseMap();
+            #endregion
         }
     }
 }
