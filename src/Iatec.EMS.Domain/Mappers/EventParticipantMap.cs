@@ -39,6 +39,10 @@ namespace Iatec.EMS.Domain.Mappers
                    .HasForeignKey(x => x.UserId)
                    .HasConstraintName("fk_ept_usr")
                    .IsRequired();
+
+            builder
+                   .Ignore(x => x.Event)
+                   .Ignore(x => x.User);
         }
     }
 }
