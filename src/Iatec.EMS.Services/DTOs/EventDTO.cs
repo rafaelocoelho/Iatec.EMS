@@ -1,5 +1,6 @@
 ﻿using Iatec.EMS.Domain.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace Iatec.EMS.Services.DTOs
 {
@@ -11,6 +12,7 @@ namespace Iatec.EMS.Services.DTOs
         public DateTime Date { get; set; }
         public string Local { get; set; }
         public EventTypeEnum Type { get; set; }
+        public List<EventParticipantDTO> EventParticipants { get; set; }
 
         public EventDTO() { }
 

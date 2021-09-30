@@ -1,5 +1,6 @@
 ﻿using Iatec.EMS.Domain.Enums;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Iatec.EMS.Services.DTOs
@@ -11,7 +12,7 @@ namespace Iatec.EMS.Services.DTOs
         public string Email { get; set; }
         [JsonIgnore]
         public string Password { get; set; }
-        public DateTime Birthday { get => Birthday.Date; set => Birthday = value; }
+        public DateTime Birthday { get; set; }
         public GenderEnum Gender { get; set; }
 
         public UserDTO() { }
