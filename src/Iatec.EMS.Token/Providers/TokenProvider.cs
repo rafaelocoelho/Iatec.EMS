@@ -13,7 +13,8 @@ namespace Iatec.EMS.Token.Providers
     {
         private readonly IConfiguration _configuration;
 
-        public TokenProvider(IConfiguration configuration)
+        public TokenProvider(
+            IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -28,8 +29,10 @@ namespace Iatec.EMS.Token.Providers
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name, user.Name),
+                Subject = new ClaimsIdentity(new Claim[] 
+                {
+                    new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.Id)),
+                    new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Role, "User")
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
